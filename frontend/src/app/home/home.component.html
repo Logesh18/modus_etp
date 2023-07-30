@@ -1,0 +1,246 @@
+<div class = "container padding-top padding-bottom">
+    <div class = "title">User Details Management App</div>
+    <div div = "content-container">
+        <div class = "form-container padding-top">
+            <form [formGroup] = "form" (ngSubmit) = "onCreate()">
+                <div class = "form-floating mb-3">
+                    <input 
+                        type = "name" 
+                        class = "form-control" 
+                        id = "floatingInput" 
+                        name = "name" 
+                        placeholder = "Tony Stark"
+                        formControlName = "name"
+                    >
+                    <label for = "floatingInput">Name</label>
+                    <div   
+                        class = "alert alert-danger" 
+                        *ngIf = "form.get('name').touched && form.get('name').invalid"
+                    >
+                        <div *ngIf = "form.get('name').errors?.required">
+                            Name is required
+                        </div>
+                    </div>
+                </div>
+    
+                <div class = "form-floating mb-3">
+                    <input 
+                        type = "email" 
+                        class = "form-control" 
+                        id = "floatingEmail" 
+                        name = "email" 
+                        placeholder = "tony@gmail.com"
+                        formControlName = "email"
+                    >
+                    <label for = "floatingEmail">Email</label>
+                    <div 
+                        class = "alert alert-danger" 
+                        *ngIf = "form.get('email').touched && form.get('email').invalid"
+                    >
+                        <div *ngIf = "form.get('email').errors?.required">
+                            Email is required
+                        </div>
+                        <div *ngIf = "form.get('email').errors?.email">
+                            Provide correct Email Id
+                        </div>
+                    </div>
+                </div>
+    
+                <div class = "form-floating mb-3">
+                    <input 
+                        type = "number" 
+                        class = "form-control" 
+                        id = "floatingAge" 
+                        name = "age" 
+                        placeholder = "25"
+                        formControlName = "age"
+                    >
+                    <label for = "floatingAge">Age</label>
+                    <div 
+                        class = "alert alert-danger" 
+                        *ngIf = "form.get('age').touched && form.get('age').invalid"
+                    >
+                        <div *ngIf = "form.get('age').errors?.required">
+                            Age is required
+                        </div>
+                        <div *ngIf = "form.get('age').errors?.min">
+                            Minimum Age should be 18
+                        </div>
+                        <div *ngIf = "form.get('age').errors?.max">
+                            Maximum Age should be 60
+                        </div>
+                    </div>
+                </div>
+                
+                <div class = "form-floating mb-3">
+                    <input 
+                        type = "tel" 
+                        class = "form-control" 
+                        id = "floatingMobileNo" 
+                        name = "mobile_no" 
+                        placeholder = "+91-1234567890"
+                        formControlName = "mobile_no"
+                    >
+                    <label for = "floatingMobileNo">Mobile No</label>
+                    <div 
+                        class = "alert alert-danger" 
+                        *ngIf = "form.get('mobile_no').touched && form.get('mobile_no').invalid"
+                    >
+                        <div *ngIf = "form.get('mobile_no').errors?.required">
+                            Mobile Number is required
+                        </div>
+                        <div *ngIf = "form.get('mobile_no').errors?.pattern">
+                            Mobile number should be in any of these formats +91-XXXXXXXXXX | 91-XXXXXXXXXX | +91XXXXXXXXXX | 0XXXXXXXXXX
+                        </div>
+                    </div>
+                </div>
+    
+                <div class = "form-floating mb-3">
+                    <input 
+                        type = "text" 
+                        class = "form-control" 
+                        id = "floatingCity" 
+                        name = "city" 
+                        placeholder = "Erode"
+                        formControlName = "city"
+                    >
+                    <label for = "floatingCity">City</label>
+                    <div 
+                        class = "alert alert-danger" 
+                        *ngIf = "form.get('city').touched && form.get('city').invalid"
+                    >
+                        <div *ngIf = "form.get('city').errors?.required">
+                            City is required
+                        </div>
+                    </div>
+                </div>
+                
+                <div class = "form-floating mb-3">
+                    <input 
+                        type = "text" 
+                        class = "form-control" 
+                        id = "floatingPincode" 
+                        name = "pincode" 
+                        placeholder = "638145"
+                        formControlName = "pincode"
+                    >
+                    <label for = "floatingPincode">Pincode</label>
+                    <div 
+                        class = "alert alert-danger" 
+                        *ngIf = "form.get('pincode').touched && form.get('pincode').invalid
+                    ">
+                        <div *ngIf = "form.get('pincode').errors?.required">
+                            Pincode is required
+                        </div>
+                    </div>
+                </div>
+    
+                <div class = "d-grid gap-2 d-lg-flex">
+                    <button 
+                        class = "btn btn-success" 
+                        type = "submit"
+                        [disabled] = "form.invalid"
+                        *ngIf = "!isUpdate"
+                    >
+                        Submit
+                    </button>
+                    <button 
+                        class = "btn btn-success" 
+                        type = "submit"
+                        [disabled] = "form.invalid"
+                        *ngIf = "isUpdate"
+                    >
+                        Update
+                    </button>
+                    <button 
+                        class = "btn btn-secondary" 
+                        type = "reset"
+                        [disabled] = "form.invalid"
+                    >
+                        Clear
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <form class="form-inline mr-sm-2 search-container padding-top">
+            <select 
+                class="form-select" 
+                aria-label="Select Filter" 
+                (change)="selectFilter($event)"
+            >
+                <option *ngFor="let filter of searchFilters" [value]="filter.value">{{ filter.label }}</option>
+            </select>
+            <input 
+                type = "search" 
+                class = "form-control md-3" 
+                id = "floatingSearch" 
+                name = "search" 
+                placeholder = "Search User Details"
+                [value] = ""
+                #searchData
+            >
+            <button class="btn btn-primary my-2 my-sm-0" type="submit" (click) = "onSearch(searchData)">Search</button>
+        </form>
+
+        <div class = "table-container padding-top">
+            <div class = "overflow-x-auto overflow-y-auto">
+                <table class = "table table-hover">
+                    <thead class = "table-dark">
+                      <tr>
+                        <th scope = "col">Id</th>
+                        <th scope = "col">Name</th>
+                        <th scope = "col">Email</th>
+                        <th scope = "col">Age</th>
+                        <th scope = "col">Mobile No</th>
+                        <th scope = "col">City</th>
+                        <th scope = "col">Pincode</th>
+                        <th scope = "col"></th>
+                        <th scope = "col"></th>
+                      </tr>
+                    </thead>
+                    <tbody class = "table-striped">
+                      <tr *ngFor = "let user of userDetails; let i = index">
+                        <th scope = "row">{{ i+1 }}</th>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.age }}</td>
+                        <td>{{ user.mobile_no }}</td>
+                        <td>{{ user.city }}</td>
+                        <td>{{ user.pincode }}</td>
+                        <td>
+                            <button 
+                                class = "btn btn-primary" 
+                                type = "button"
+                                (click) = "onUpdate(i, user)"
+                            >
+                                Update
+                            </button>
+                        </td>
+                        <td>
+                            <button 
+                                class = "btn btn-danger" 
+                                type = "button"
+                                (click) = "onDelete(i)"
+                                >
+                                    Delete
+                            </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class = "d-grid gap-2 d-lg-flex">
+                <button 
+                    class = "btn btn-danger" 
+                    type = "button"
+                    (click) = "onDeleteAll()"
+                    [disabled] = "!userDetails.length"
+                    >
+                        Delete All
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
