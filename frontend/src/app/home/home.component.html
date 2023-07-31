@@ -163,7 +163,7 @@
             </form>
         </div>
 
-        <form class="form-inline mr-sm-2 search-container padding-top">
+        <form class="form-inline mr-sm-2 search-container padding-top" *ngIf = "userDetails.length">
             <select 
                 class="form-select" 
                 aria-label="Select Filter" 
@@ -183,7 +183,7 @@
             <button class="btn btn-primary my-2 my-sm-0" type="submit" (click) = "onSearch(searchData)">Search</button>
         </form>
 
-        <div class = "table-container padding-top">
+        <div class = "table-container padding-top" *ngIf = "userDetails.length">
             <div class = "overflow-x-auto overflow-y-auto">
                 <table class = "table table-hover">
                     <thead class = "table-dark">
@@ -236,7 +236,6 @@
                     class = "btn btn-danger" 
                     type = "button"
                     (click) = "onDeleteAll()"
-                    [disabled] = "!userDetails.length"
                     >
                         Delete All
                 </button>
